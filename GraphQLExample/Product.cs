@@ -13,7 +13,7 @@ namespace GraphQLExample
 
         [StringLength(100)]
         public string Name { get; set; }
-        public ProductType Type { get; set; }
+        public ProductTypes Type { get; set; }
         public string Description { get; set; }
 
         [Column(TypeName = "decimal(18,2)")]

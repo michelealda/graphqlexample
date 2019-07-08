@@ -1,6 +1,6 @@
 ﻿namespace GraphQLExample
 {
-    public enum ProductType
+    public enum ProductTypes
     {
         Boots,
         ClimbingGear,
