@@ -1,4 +1,9 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using GraphQL;
+using GraphQL.Server;
+using GraphQL.Server.Ui.Playground;
+using GraphQLExample.GraphQL;
+using GraphQLExample.Infrastructure;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -17,17 +22,25 @@ namespace GraphQLExample
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services
-                .AddMvc()
-                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddDbContext<ProductDbContext>();
-            services.AddSingleton<ProductRepository>();
+            services.AddScoped<ProductRepository>();
+
+            services.AddScoped<IDependencyResolver>(s => new FuncDependencyResolver(s.GetRequiredService));
+
+            services.AddScoped<ProductSchema>();
+
+            services.AddGraphQL(o =>
+                {
+                    o.ExposeExceptions = true;
+                    o.EnableMetrics = true;
+                })
+                .AddGraphTypes(ServiceLifetime.Scoped);
         }
 
         public void Configure(IApplicationBuilder app, ProductDbContext productDbContext)
         {
-            app.UseDeveloperExceptionPage();
-            app.UseMvc();
+            app.UseGraphQL<ProductSchema>();
+            app.UseGraphQLPlayground(new GraphQLPlaygroundOptions());
             productDbContext.Seed();
         }
     }

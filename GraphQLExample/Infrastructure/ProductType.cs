@@ -1,4 +1,4 @@
-﻿namespace GraphQLExample
+﻿namespace GraphQLExample.Infrastructure
 {
     public enum ProductTypes
     {

@@ -1,4 +1,5 @@
 ﻿using System;
+using GraphQLExample.Infrastructure;
 using Microsoft.EntityFrameworkCore.Internal;
 
 namespace GraphQLExample

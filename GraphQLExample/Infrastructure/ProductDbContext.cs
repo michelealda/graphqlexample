@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace GraphQLExample
+namespace GraphQLExample.Infrastructure
 {
     public class ProductDbContext : DbContext
     {

@@ -1,4 +1,5 @@
 ﻿using GraphQL.Types;
+using GraphQLExample.Infrastructure;
 
 namespace GraphQLExample.GraphQL
 {

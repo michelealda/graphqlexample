@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace GraphQLExample
+namespace GraphQLExample.Infrastructure
 {
     public class ProductRepository
     {
