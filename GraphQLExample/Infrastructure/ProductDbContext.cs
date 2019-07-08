@@ -5,6 +5,7 @@ namespace GraphQLExample.Infrastructure
     public class ProductDbContext : DbContext
     {
         public DbSet<Product> Products { get; set; }
+        public DbSet<ProductReview> ProductReviews { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
