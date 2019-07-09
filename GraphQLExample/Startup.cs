@@ -36,6 +36,7 @@ namespace GraphQLExample
                     o.EnableMetrics = true;
                 })
                 .AddGraphTypes(ServiceLifetime.Scoped)
+                .AddUserContextBuilder(httpContext => httpContext.User)
                 .AddDataLoader();
         }
 

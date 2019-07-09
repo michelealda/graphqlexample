@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Security.Claims;
 using GraphQL.DataLoader;
 using GraphQL.Types;
 using GraphQLExample.Infrastructure;
@@ -23,11 +24,12 @@ namespace GraphQLExample.GraphQL
             Field<ListGraphType<ProductReviewType>>(
                 "reviews",
                 resolve: ctx =>
-                    {
-                        var loader = dataLoaderAccessor.Context.GetOrAddCollectionBatchLoader<int, ProductReview>(
-                            "GetReviewsByProductId", reviewRepository.GetForProducts);
-                        return loader.LoadAsync(ctx.Source.Id);
-                    }
+                {
+                    var user = (ClaimsPrincipal)ctx.UserContext;
+                    var loader = dataLoaderAccessor.Context.GetOrAddCollectionBatchLoader<int, ProductReview>(
+                        "GetReviewsByProductId", reviewRepository.GetForProducts);
+                    return loader.LoadAsync(ctx.Source.Id);
+                }
                 );
 
         }
