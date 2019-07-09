@@ -35,7 +35,8 @@ namespace GraphQLExample
                     o.ExposeExceptions = true;
                     o.EnableMetrics = true;
                 })
-                .AddGraphTypes(ServiceLifetime.Scoped);
+                .AddGraphTypes(ServiceLifetime.Scoped)
+                .AddDataLoader();
         }
 
         public void Configure(IApplicationBuilder app, ProductDbContext productDbContext)

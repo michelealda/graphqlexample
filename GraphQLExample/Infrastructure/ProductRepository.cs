@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace GraphQLExample.Infrastructure
 {
@@ -27,9 +29,15 @@ namespace GraphQLExample.Infrastructure
             _dbContext = dbContext;
         }
 
-        public IEnumerable<ProductReview> GetAll(int id)
+        public async Task<IEnumerable<ProductReview>> GetForProduct(int id)
+            => await _dbContext.ProductReviews.Where(r => r.ProductId == id).ToListAsync();
+
+        public async Task<ILookup<int, ProductReview>> GetForProducts(IEnumerable<int> productIds)
         {
-            return _dbContext.ProductReviews.Where(r => r.ProductId == id);
+            var reviews = await _dbContext.ProductReviews
+                .Where(r => productIds.Contains(r.ProductId)).ToListAsync();
+            return reviews.ToLookup(r => r.ProductId);
         }
+
     }
 }

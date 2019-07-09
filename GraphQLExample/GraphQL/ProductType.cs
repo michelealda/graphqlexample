@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using GraphQL.DataLoader;
 using GraphQL.Types;
 using GraphQLExample.Infrastructure;
 
@@ -6,7 +7,8 @@ namespace GraphQLExample.GraphQL
 {
     public class ProductType : ObjectGraphType<Product>
     {
-        public ProductType(ProductReviewRepository reviewRepository)
+        public ProductType(ProductReviewRepository reviewRepository,
+            IDataLoaderContextAccessor dataLoaderAccessor)
         {
             Field(t => t.Id);
             Field(t => t.Name);
@@ -20,7 +22,12 @@ namespace GraphQLExample.GraphQL
 
             Field<ListGraphType<ProductReviewType>>(
                 "reviews",
-                resolve: ctx => reviewRepository.GetAll(ctx.Source.Id)
+                resolve: ctx =>
+                    {
+                        var loader = dataLoaderAccessor.Context.GetOrAddCollectionBatchLoader<int, ProductReview>(
+                            "GetReviewsByProductId", reviewRepository.GetForProducts);
+                        return loader.LoadAsync(ctx.Source.Id);
+                    }
                 );
 
         }
