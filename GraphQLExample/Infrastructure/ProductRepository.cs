@@ -15,9 +15,10 @@ namespace GraphQLExample.Infrastructure
         }
 
         public IEnumerable<Product> GetAll()
-        {
-            return _dbContext.Products;
-        }
+        =>_dbContext.Products;
+
+        public Product Get(int id)
+            => _dbContext.Products.SingleOrDefault(p => p.Id == id);
     }
 
     public class ProductReviewRepository
