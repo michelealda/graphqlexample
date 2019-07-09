@@ -1,5 +1,4 @@
-﻿using System.IO;
-using System.Security.Claims;
+﻿using System.Security.Claims;
 using GraphQL.DataLoader;
 using GraphQL.Types;
 using GraphQLExample.Infrastructure;
